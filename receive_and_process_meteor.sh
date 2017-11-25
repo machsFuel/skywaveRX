@@ -11,11 +11,12 @@
 sudo ifconfig eth0 down
 
 #record pass
-timeout $6 /home/machs/skywave.py --destfile $3 
+timeout $6 /home/machs/meteor-m2-lrpt/meteor-m2-lrpt.py --destfile $3 
 
 #restore ethernet comms and set gateway for the intertubes
 sudo ifconfig eth0 up
 sudo route add -net 0.0.0.0 gw 192.168.1.1 eth0
+# start aisTXR on rtl device 0
 screen -d -m -S ais rtl_ais -d 0 -p 47 -n -g 36 -h 5.9.207.224 -P 7865
 
 #decode pass
