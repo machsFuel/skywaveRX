@@ -1,11 +1,11 @@
 #!/bin/bash
-PREDICTION_START=`/usr/bin/predict -t /home/machs/weather/predict/weather.tle -p "${1}" | head -1`
-PREDICTION_END=`/usr/bin/predict -t /home/machs/weather/predict/weather.tle -p "${1}" | tail -1`
+PREDICTION_START=`/usr/bin/predict -t /home/machs/skywaveRX/weather.tle -p "${1}" | head -1`
+PREDICTION_END=`/usr/bin/predict -t /home/machs/skywaveRX/weather.tle -p "${1}" | tail -1`
 
 
 var2=`echo $PREDICTION_END | cut -d " " -f 1`
 
-MAXELEV=`/usr/bin/predict -t /home/machs/weather/predict/weather.tle -p "${1}" | awk -v max=0 '{if($5>max){max=$5}}END{print max}'`
+MAXELEV=`/usr/bin/predict -t /home/machs/skywaveRX/weather.tle -p "${1}" | awk -v max=0 '{if($5>max){max=$5}}END{print max}'`
 
 while [ `date --date="TZ=\"UTC\" @${var2}" +%D` == `date +%D` ]; do
 
@@ -22,19 +22,16 @@ FILENAME=${OUTDATE}${1//" "}"El"$MAXELEV
 
 if [ $MAXELEV -gt 34 ]
   then
-#    echo ${1//" "}${OUTDATE} $MAXELEV
     echo ${OUTDATE} ${1} "max_elevation ="$MAXELEV
-
-#    echo "/home/machs/weather/predict/receive_and_process_satellite.sh \"${1}\" $2 /home/machs/weather/${FILENAME} /home/machs/weather/predict/weather.tle $var1 $TIMER" | at `date --date="TZ=\"UTC\" $START_TIME" +"%H:%M %D"`
-    echo "/home/machs/weather/predict/receive_and_process_meteor.sh \"${1}\" $2 /mnt/ramDrive/${FILENAME} /home/machs/weather/predict/weather.tle $var1 $TIMER" | at `date --date="TZ=\"UTC\" $START_TIME" +"%H:%M %D"`
+    echo "/home/machs/skywaveRX/receive_and_process_meteor.sh \"${1}\" $2 /mnt/ramDrive/${FILENAME} /home/machs/skywaveRX/weather.tle $var1 $TIMER" | at `date --date="TZ=\"UTC\" $START_TIME" +"%H:%M %D"`
 fi
 
 nextpredict=`expr $var2 + 60`
 
-PREDICTION_START=`/usr/bin/predict -t /home/machs/weather/predict/weather.tle -p "${1}" $nextpredict | head -1`
-PREDICTION_END=`/usr/bin/predict -t /home/machs/weather/predict/weather.tle -p "${1}"  $nextpredict | tail -1`
+PREDICTION_START=`/usr/bin/predict -t /home/machs/skywaveRX/weather.tle -p "${1}" $nextpredict | head -1`
+PREDICTION_END=`/usr/bin/predict -t /home/machs/skywaveRX/weather.tle -p "${1}"  $nextpredict | tail -1`
 
-MAXELEV=`/usr/bin/predict -t /home/machs/weather/predict/weather.tle -p "${1}" $nextpredict | awk -v max=0 '{if($5>max){max=$5}}END{print max}'`
+MAXELEV=`/usr/bin/predict -t /home/machs/skywaveRX/weather.tle -p "${1}" $nextpredict | awk -v max=0 '{if($5>max){max=$5}}END{print max}'`
 
 var2=`echo $PREDICTION_END | cut -d " " -f 1`
 
