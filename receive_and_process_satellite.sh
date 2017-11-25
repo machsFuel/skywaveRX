@@ -11,6 +11,7 @@
 #user needs ifconfig NOPASSWD permissions in sudoers
 sudo ifconfig eth0 down
 
+# gain setting, device ID are installation dependant.
 timeout $6 rtl_fm -f ${2}M -s 60k -d 067 -g 27 -p 67 -E deemp -F 9 - | sox -b16 -c1 -V1 -es -r 60000 -t raw - $3.wav rate 11025
 
 #restore eth connection and setup defualt gateway to outside world

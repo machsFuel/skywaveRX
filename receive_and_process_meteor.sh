@@ -21,11 +21,12 @@ screen -d -m -S ais rtl_ais -d 0 -p 47 -n -g 36 -h 5.9.207.224 -P 7865
 #decode pass
 /home/machs/meteor_decoder/medet ${3}.s $3 -q
 
-#if decode sucessful, upload to drive and clean up working files
+#if decode sucessful, upload to drive 
 if [ -e $3.bmp ]
   then
     /home/machs/gdrive-linux-arm upload --parent 0B7zPlhkVKJtHLV9WWDExOFZzdTg $3.bmp
 #    convert $3.bmp $3.png
 fi
-   rm $3*
+# clean up working files
+rm $3*
 
